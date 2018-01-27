@@ -1,0 +1,23 @@
+{
+    "name": "ahmjw/wp-chupoo-mvc",
+    "description": "Record Model for PHP",
+    "homepage": "https://chupoo.introvesia.com",
+    "keywords": ["php", "model", "record"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Ahmad",
+            "email": "rawndummy@gmail.com",
+            "homepage": "http://twitter.com/ahmjw"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Introvesia\\Chupoo\\Models": "src"
+        }
+    }
+}
