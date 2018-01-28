@@ -13,24 +13,37 @@ use Introvesia\Chupoo\Helpers\Config;
 
 class Db
 {
+	private static $config = array();
 	private static $connection;
+
+	public static function setConnection(\mysqli $connection)
+	{
+		self::$connection = $connection;
+	}
+
+	public static function setConfig(array $config)
+	{
+		self::$config = $config;
+	}
+
+	private static function connect()
+	{
+		mysqli_report(MYSQLI_REPORT_STRICT);
+		try {
+			self::$connection = mysqli_connect(self::$config['host'], self::$config['user'], 
+				self::$config['password'], self::$config['database']);
+			if (isset(self::$config['charset']))
+				self::$connection->set_charset(self::$config['charset']);
+		} catch (Exception $ex) {
+			throw new Exception($ex->getMessage(), 500);
+		}
+	}
 
 	public static function getConnection()
 	{
+
 		if (self::$connection === null) {
-			mysqli_report(MYSQLI_REPORT_STRICT);
-			$path = Config::find('app_path') . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'db.php';
-			if (!file_exists($path)) {
-				throw new Exception('Config file not found: ' . $path, 500);
-			}
-			$config = include($path);
-			try {
-				self::$connection = mysqli_connect($config['host'], $config['user'], $config['password'], $config['database']);
-				if (isset($config['charset']))
-					self::$connection->set_charset($config['charset']);
-			} catch (Exception $ex) {
-				throw new Exception($ex->getMessage(), 500);
-			}
+			self::connect();
 		}
 		return self::$connection;
 	}
