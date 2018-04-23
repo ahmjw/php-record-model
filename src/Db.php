@@ -125,4 +125,8 @@ class Db
 		}
 		return $str;
 	}
+
+	public function test()
+	{
+	}
 }
